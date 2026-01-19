@@ -2,6 +2,9 @@ import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import appCss from '../styles.css?url'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+import { useEffect } from 'react'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -29,6 +32,13 @@ export const Route = createRootRoute({
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: true,
+      mirror: false,
+    })
+  }, [])
   return (
     <html lang="en">
       <head>
