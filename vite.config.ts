@@ -17,8 +17,7 @@ const config = defineConfig({
   },
   plugins: [
     devtools(),
-    nitro(),
-    netlify(),
+    // nitro(),
     // this is the plugin that enables path aliases
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
@@ -30,6 +29,8 @@ const config = defineConfig({
         plugins: ['babel-plugin-react-compiler'],
       },
     }),
+
+    netlify(),
   ],
 })
 
