@@ -7,6 +7,7 @@ import { fileURLToPath, URL } from 'url'
 
 import tailwindcss from '@tailwindcss/vite'
 import { nitro } from 'nitro/vite'
+import netlify from '@netlify/vite-plugin-tanstack-start'
 
 const config = defineConfig({
   resolve: {
@@ -17,6 +18,7 @@ const config = defineConfig({
   plugins: [
     devtools(),
     nitro(),
+    netlify(),
     // this is the plugin that enables path aliases
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
