@@ -22,7 +22,7 @@ export const Specialists = () => {
                     </Typography>
 
                     <div className="xl:w-full max-md:w-full" data-aos="zoom-in" data-aos-duration="600" data-aos-once="true">
-                        <img src={doctorImage} alt="Doctor" className="w-full max-w-71.25 xl:max-w-full max-md:max-w-full" />
+                        <img src={doctorImage} alt="Doctor" className="w-full rounded-3xl max-w-71.25 xl:max-w-full max-md:max-w-full" />
                     </div>
 
                     <div className="flex flex-col gap-8 items-start md:w-100 w-full shrink-0">
