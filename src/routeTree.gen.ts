@@ -9,12 +9,30 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as _authedRouteImport } from './routes/__authed'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SignupIndexRouteImport } from './routes/signup/index'
+import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as AboutUsIndexRouteImport } from './routes/about-us/index'
+import { Route as _authedDashboardIndexRouteImport } from './routes/__authed/dashboard/index'
 
+const _authedRoute = _authedRouteImport.update({
+  id: '/__authed',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupIndexRoute = SignupIndexRouteImport.update({
+  id: '/signup/',
+  path: '/signup/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginIndexRoute = LoginIndexRouteImport.update({
+  id: '/login/',
+  path: '/login/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutUsIndexRoute = AboutUsIndexRouteImport.update({
@@ -22,40 +40,86 @@ const AboutUsIndexRoute = AboutUsIndexRouteImport.update({
   path: '/about-us/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const _authedDashboardIndexRoute = _authedDashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => _authedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about-us/': typeof AboutUsIndexRoute
+  '/login/': typeof LoginIndexRoute
+  '/signup/': typeof SignupIndexRoute
+  '/dashboard/': typeof _authedDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about-us': typeof AboutUsIndexRoute
+  '/login': typeof LoginIndexRoute
+  '/signup': typeof SignupIndexRoute
+  '/dashboard': typeof _authedDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/__authed': typeof _authedRouteWithChildren
   '/about-us/': typeof AboutUsIndexRoute
+  '/login/': typeof LoginIndexRoute
+  '/signup/': typeof SignupIndexRoute
+  '/__authed/dashboard/': typeof _authedDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about-us/'
+  fullPaths: '/' | '/about-us/' | '/login/' | '/signup/' | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about-us'
-  id: '__root__' | '/' | '/about-us/'
+  to: '/' | '/about-us' | '/login' | '/signup' | '/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/__authed'
+    | '/about-us/'
+    | '/login/'
+    | '/signup/'
+    | '/__authed/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  _authedRoute: typeof _authedRouteWithChildren
   AboutUsIndexRoute: typeof AboutUsIndexRoute
+  LoginIndexRoute: typeof LoginIndexRoute
+  SignupIndexRoute: typeof SignupIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/__authed': {
+      id: '/__authed'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof _authedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup/': {
+      id: '/signup/'
+      path: '/signup'
+      fullPath: '/signup/'
+      preLoaderRoute: typeof SignupIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login/': {
+      id: '/login/'
+      path: '/login'
+      fullPath: '/login/'
+      preLoaderRoute: typeof LoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about-us/': {
@@ -65,12 +129,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutUsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/__authed/dashboard/': {
+      id: '/__authed/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof _authedDashboardIndexRouteImport
+      parentRoute: typeof _authedRoute
+    }
   }
 }
 
+interface _authedRouteChildren {
+  _authedDashboardIndexRoute: typeof _authedDashboardIndexRoute
+}
+
+const _authedRouteChildren: _authedRouteChildren = {
+  _authedDashboardIndexRoute: _authedDashboardIndexRoute,
+}
+
+const _authedRouteWithChildren =
+  _authedRoute._addFileChildren(_authedRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  _authedRoute: _authedRouteWithChildren,
   AboutUsIndexRoute: AboutUsIndexRoute,
+  LoginIndexRoute: LoginIndexRoute,
+  SignupIndexRoute: SignupIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
